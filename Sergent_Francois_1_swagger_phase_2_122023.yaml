@@ -14,8 +14,24 @@ paths:
       responses:
         200:
           description: Succès - Renvoie la liste des transactions triées par compte
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                compte_id:
+                  type: integer
+                  description: L'ID du compte
+                montant:
+                  type: number
+                  description: Le montant de la transaction
+                description:
+                  type: string
+                  description: Description de la transaction
         400:
           description: Erreur de requête - Le mois spécifié est invalide
+        401:
+          description: Non autorisé - L'accès à cette ressource nécessite une authentification
     post:
       summary: Ajouter une nouvelle transaction
       parameters:
@@ -36,6 +52,21 @@ paths:
       responses:
         201:
           description: Création réussie - Renvoie la transaction ajoutée
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: L'ID de la transaction créée
+              compte_id:
+                type: integer
+                description: L'ID du compte de la transaction
+              montant:
+                type: number
+                description: Le montant de la transaction
+              description:
+                type: string
+                description: Description de la transaction
         400:
           description: Erreur de requête - Les données de la transaction sont incorrectes
 
@@ -51,8 +82,25 @@ paths:
       responses:
         200:
           description: Succès - Renvoie les détails de la transaction
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: L'ID de la transaction
+              compte_id:
+                type: integer
+                description: L'ID du compte de la transaction
+              montant:
+                type: number
+                description: Le montant de la transaction
+              description:
+                type: string
+                description: Description de la transaction
         404:
           description: Non trouvé - La transaction spécifiée n'existe pas
+        401:
+          description: Non autorisé - L'accès à cette ressource nécessite une authentification
     put:
       summary: Modifier les informations d'une transaction
       parameters:
@@ -75,10 +123,27 @@ paths:
       responses:
         200:
           description: Succès - Renvoie la transaction modifiée
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: L'ID de la transaction modifiée
+              compte_id:
+                type: integer
+                description: L'ID du compte de la transaction
+              montant:
+                type: number
+                description: Le montant mis à jour de la transaction
+              description:
+                type: string
+                description: Description mise à jour de la transaction
         400:
           description: Erreur de requête - Les données de la transaction sont incorrectes
         404:
           description: Non trouvé - La transaction spécifiée n'existe pas
+        401:
+          description: Non autorisé - L'accès à cette ressource nécessite une authentification
     delete:
       summary: Supprimer une transaction
       parameters:
@@ -92,3 +157,5 @@ paths:
           description: Aucun contenu - La transaction a été supprimée avec succès
         404:
           description: Non trouvé - La transaction spécifiée n'existe pas
+        401:
+          description: Non autorisé - L'accès à cette ressource nécessite une authentification
