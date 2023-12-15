@@ -1,0 +1,94 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: API de Gestion des Transactions
+paths:
+  /transactions:
+    get:
+      summary: Récupérer toutes les transactions du mois en cours, triées par compte
+      parameters:
+        - name: mois
+          in: query
+          type: string
+          description: Le mois pour lequel récupérer les transactions (format 'YYYY-MM')
+      responses:
+        200:
+          description: Succès - Renvoie la liste des transactions triées par compte
+        400:
+          description: Erreur de requête - Le mois spécifié est invalide
+    post:
+      summary: Ajouter une nouvelle transaction
+      parameters:
+        - name: transaction
+          in: body
+          schema:
+            type: object
+            properties:
+              compte_id:
+                type: integer
+                description: L'ID du compte auquel ajouter la transaction
+              montant:
+                type: number
+                description: Le montant de la transaction
+              description:
+                type: string
+                description: Description de la transaction
+      responses:
+        201:
+          description: Création réussie - Renvoie la transaction ajoutée
+        400:
+          description: Erreur de requête - Les données de la transaction sont incorrectes
+
+  /transactions/{transactionId}:
+    get:
+      summary: Récupérer les détails d'une transaction spécifique
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          type: integer
+          description: L'ID de la transaction à récupérer
+      responses:
+        200:
+          description: Succès - Renvoie les détails de la transaction
+        404:
+          description: Non trouvé - La transaction spécifiée n'existe pas
+    put:
+      summary: Modifier les informations d'une transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          type: integer
+          description: L'ID de la transaction à modifier
+        - name: transaction
+          in: body
+          schema:
+            type: object
+            properties:
+              montant:
+                type: number
+                description: Le montant mis à jour de la transaction
+              description:
+                type: string
+                description: Description mise à jour de la transaction
+      responses:
+        200:
+          description: Succès - Renvoie la transaction modifiée
+        400:
+          description: Erreur de requête - Les données de la transaction sont incorrectes
+        404:
+          description: Non trouvé - La transaction spécifiée n'existe pas
+    delete:
+      summary: Supprimer une transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          type: integer
+          description: L'ID de la transaction à supprimer
+      responses:
+        204:
+          description: Aucun contenu - La transaction a été supprimée avec succès
+        404:
+          description: Non trouvé - La transaction spécifiée n'existe pas
